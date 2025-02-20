@@ -14,24 +14,38 @@ function Form({ route, method }) {
     const name = method === "login" ? "Login" : "Register";
 
     const handleSubmit = async (e) => {
-        setLoading(true);
-        e.preventDefault();
+    setLoading(true);
+    e.preventDefault();
 
-        try {
-            const res = await core.post(route, { username, password })
-            if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/")
-            } else {
-                navigate("/login")
-            }
-        } catch (error) {
-            alert(error)
-        } finally {
-            setLoading(false)
+    try {
+        console.log("Attempting login/register with:", { username, password });
+        
+        const res = await core.post(route, { username, password });
+
+        console.log("Response received:", res);
+
+        if (method === "login") {
+            console.log("Login successful. Storing tokens...");
+            localStorage.setItem(ACCESS_TOKEN, res.data.access);
+            localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+            navigate("/");
+        } else {
+            console.log("Registration successful. Redirecting to login...");
+            navigate("/login");
         }
-    };
+    } catch (error) {
+        console.error("Error during login/register:", error);
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+            alert(`Error: ${JSON.stringify(error.response.data)}`);
+        } else {
+            alert("An unexpected error occurred. Check the console for details.");
+        }
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
