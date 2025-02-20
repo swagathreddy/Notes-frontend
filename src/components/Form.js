@@ -12,39 +12,34 @@ function Form({ route, method }) {
     const navigate = useNavigate();
 
     const name = method === "login" ? "Login" : "Register";
-
-    const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     try {
-        console.log("Attempting login/register with:", { username, password });
-        
+        console.log("Attempting login/register:", { username, password });
+        document.body.innerHTML += "<p>Attempting login...</p>"; // Debugging message on screen
+
         const res = await core.post(route, { username, password });
 
-        console.log("Response received:", res);
+        console.log("Response:", res);
+        document.body.innerHTML += "<p>Login successful!</p>"; // Show success message
 
         if (method === "login") {
-            console.log("Login successful. Storing tokens...");
             localStorage.setItem(ACCESS_TOKEN, res.data.access);
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
             navigate("/");
         } else {
-            console.log("Registration successful. Redirecting to login...");
             navigate("/login");
         }
     } catch (error) {
-        console.error("Error during login/register:", error);
-        if (error.response) {
-            console.error("Response data:", error.response.data);
-            alert(`Error: ${JSON.stringify(error.response.data)}`);
-        } else {
-            alert("An unexpected error occurred. Check the console for details.");
-        }
+        console.error("Error:", error);
+        document.body.innerHTML += `<p>Error: ${JSON.stringify(error.response?.data || error.message)}</p>`;
     } finally {
         setLoading(false);
     }
 };
+
 
 
     return (
