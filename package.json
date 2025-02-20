@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://notes-backend-production-5d4d.up.railway.app",  
+  "proxy": "https://ksr-notes.vercel.app/",  
   "eslintConfig": {
     "extends": [
       "react-app",
