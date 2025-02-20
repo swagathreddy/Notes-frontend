@@ -1,0 +1,119 @@
+.welcome-container {
+    background-color: var(--bg-primary);
+    min-height: calc(100vh - 80px);
+    padding: 4rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 2rem;
+}
+  
+  .welcome-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .welcome-title {
+    color: var(--text-primary);
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  .welcome-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  
+  .feature-card {
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid var(--border-color);
+    transition: all 0.2s ease;
+  }
+  
+  .feature-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-primary);
+  }
+  
+  .feature-text {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+  .start-button {
+    background-color: var(--accent-primary);
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 3rem;
+  }
+  
+  .start-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .start-button:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    .start-button {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header {
+      padding: 1rem;
+    }
+    
+    .header-nav {
+      gap: 0.5rem;
+    }
+    
+    .nav-button {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+    
+    .welcome-title {
+      font-size: 2.5rem;
+    }
+    
+    .welcome-subtitle {
+      font-size: 1.25rem;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
