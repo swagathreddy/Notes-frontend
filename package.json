@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://notes-frontend-eight-omega.vercel.app/",  
+  "proxy": "https://note-drop.vercel.app/",  
   "eslintConfig": {
     "extends": [
       "react-app",
