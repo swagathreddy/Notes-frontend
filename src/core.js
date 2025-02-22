@@ -2,7 +2,7 @@ import axios from "axios";
 import { ACCESS_TOKEN } from "./constants";
 
 // Deployed API URL (Production)
-const DEPLOYED_API_URL = "https://notes-backend-production-5d4d.up.railway.app";
+const DEPLOYED_API_URL = "https://notes-backend-beige.vercel.app/";
 
 // Local API URL (Development)
 const LOCAL_API_URL = "http://127.0.0.1:8000";
