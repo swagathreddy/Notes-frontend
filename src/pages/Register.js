@@ -11,7 +11,6 @@ function Register() {
         first_name: "",
         last_name: "",
         email: "",
-        phonenumber: "",
         password: "",
         confirm_password: "",
     });
@@ -43,9 +42,6 @@ function Register() {
                 email: formData.email,
                 password: formData.password,
                 confirm_password: formData.confirm_password,
-                profile: {
-                    phonenumber: formData.phonenumber,
-                },
             };
 
             await core.post("/core/user/register/", payload);
@@ -107,16 +103,6 @@ function Register() {
 
             <input
                 className="form-input"
-                type="text"
-                name="phonenumber"
-                value={formData.phonenumber}
-                onChange={handleChange}
-                placeholder="Phone Number"
-                required
-            />
-
-            <input
-                className="form-input"
                 type="password"
                 name="password"
                 value={formData.password}
@@ -142,7 +128,6 @@ function Register() {
         </form>
         </>
     );
-   
 }
 
 export default Register;
