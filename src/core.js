@@ -13,9 +13,10 @@ const API_URL = window.location.hostname === "localhost" ? LOCAL_API_URL : DEPLO
 console.log(`Using API URL: ${API_URL}`);  // Debugging to see which URL is used
 
 const core = axios.create({
-    baseURL: API_URL,
+    baseURL: API_URL.trim(), // Trim to remove accidental whitespace
 });
 
+// ✅ Attach Authorization Header
 core.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem(ACCESS_TOKEN);
@@ -24,9 +25,7 @@ core.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
 export default core;
