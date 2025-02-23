@@ -3,18 +3,22 @@ import { useState, useEffect } from "react";
 import core from "../core";
 import Note from "../components/Note";
 import Header from "../components/Header";
+import LoadingIndicator from "../components/LoadingIndicator"; // Import your loading indicator component
 import "../styles/Home.css";
 
 function Home() {
     const [notes, setNotes] = useState([]);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
+    const [notesLoading, setNotesLoading] = useState(true); // New state for loading notes
+    const [isLoading, setIsLoading] = useState(false); // Used for create and delete actions
 
     useEffect(() => {
         getNotes();
     }, []);
 
     const getNotes = () => {
+        setNotesLoading(true);
         core
             .get("/core/notes/", {
                 headers: {
@@ -37,11 +41,9 @@ function Home() {
                 } else {
                     alert('Error fetching notes');
                 }
-            });
+            })
+            .finally(() => setNotesLoading(false));
     };
-
-    const [isLoading, setIsLoading] = useState(false);
-
 
     const deleteNote = (id) => {
         setIsLoading(true);
@@ -108,9 +110,25 @@ function Home() {
     const createNote = (e) => {
         e.preventDefault();
         setIsLoading(true);
+    
+        // Trim inputs to remove any extra whitespace
+        const trimmedTitle = title.trim();
+        const trimmedContent = content.trim();
+    
+        // Ensure title is provided
+        if (!trimmedTitle) {
+            alert("Title is required");
+            setIsLoading(false);
+            return;
+        }
         
-        const newNote = { content, title, completed: false };
-        
+        // Create note payload; content will be an empty string if left blank
+        const newNote = { 
+            title: trimmedTitle, 
+            content: trimmedContent, 
+            completed: false 
+        };
+    
         core
             .post("/core/notes/", newNote, {
                 headers: {
@@ -124,8 +142,9 @@ function Home() {
                     setContent("");
                     setTitle("");
                     alert("Note created!");
+                } else {
+                    alert("Failed to create note.");
                 }
-                else alert("Failed to make note.");
             })
             .catch((err) => {
                 if (err.response?.status === 401) {
@@ -143,16 +162,21 @@ function Home() {
             <div className="notes-container">
                 <div className="notes-list">
                     <h2 className="section-title">Your Notes</h2>
-                    <div className="notes-scroll">
-                        {notes.map((note) => (
-                            <Note 
-                                note={note} 
-                                onDelete={deleteNote} 
-                                onToggleComplete={toggleNoteComplete}
-                                key={note.id} 
-                            />
-                        ))}
-                    </div>
+                    {notesLoading ? (
+                        // Show loading indicator while notes are loading
+                        <LoadingIndicator />
+                    ) : (
+                        <div className="notes-scroll">
+                            {notes.map((note) => (
+                                <Note 
+                                    note={note} 
+                                    onDelete={deleteNote} 
+                                    onToggleComplete={toggleNoteComplete}
+                                    key={note.id} 
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
                 
                 <div className="create-note">
@@ -172,11 +196,10 @@ function Home() {
                             />
                         </div>
                         <div>
-                            <label htmlFor="content" className="form-label">Content</label>
+                            <label htmlFor="content" className="form-label">Content (Optional)</label>
                             <textarea
                                 id="content"
                                 name="content"
-                                required
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
                                 className="w-full p-2 rounded input-field h-32"
