@@ -16,6 +16,9 @@ function Register() {
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
     const handleChange = (e) => {
         setFormData({
@@ -49,85 +52,114 @@ function Register() {
             navigate("/login");
         } catch (error) {
             console.error(error);
-            alert("Registration failed. Please check your inputs.");
-        } finally {
+            if (error.response && error.response.data) {
+                const errors = error.response.data;
+                let messages = [];
+        
+                for (const key in errors) {
+                    messages.push(`${key}: ${errors[key]}`);
+                }
+        
+                alert(messages.join("\n"));
+            } else {
+                alert("Registration failed. Please try again.");
+            }
+        }
+        finally {
             setLoading(false);
         }
     };
 
     return (
         <>
-        <Header/>
-        <form onSubmit={handleSubmit} className="form-container">
-            <h1>Register</h1>
-
-            <input
-                className="form-input"
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Username"
-                required
-            />
-
-            <input
-                className="form-input"
-                type="text"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-                placeholder="First Name"
-                required
-            />
-
-            <input
-                className="form-input"
-                type="text"
-                name="last_name"
-                value={formData.last_name}
-                onChange={handleChange}
-                placeholder="Last Name"
-                required
-            />
-
-            <input
-                className="form-input"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-                required
-            />
-
-            <input
-                className="form-input"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Password"
-                required
-            />
-
-            <input
-                className="form-input"
-                type="password"
-                name="confirm_password"
-                value={formData.confirm_password}
-                onChange={handleChange}
-                placeholder="Confirm Password"
-                required
-            />
-
-            {loading && <LoadingIndicator />}
-            <button className="form-button" type="submit">
-                Register
-            </button>
-        </form>
+            <Header />
+            <form onSubmit={handleSubmit} className="form-container">
+                <h1>Register</h1>
+    
+                <input
+                    className="form-input"
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Username"
+                    required
+                />
+    
+                <input
+                    className="form-input"
+                    type="text"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    placeholder="First Name"
+                    required
+                />
+    
+                <input
+                    className="form-input"
+                    type="text"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    placeholder="Last Name"
+                    required
+                />
+    
+                <input
+                    className="form-input"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    required
+                />
+    
+                <div className="form-input-with-icon">
+                    <input
+                        className="form-input"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                    />
+                    <span
+                        className="toggle-password"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? "🙈" : "👁️"}
+                    </span>
+                </div>
+    
+                <div className="form-input-with-icon">
+                    <input
+                        className="form-input"
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirm_password"
+                        value={formData.confirm_password}
+                        onChange={handleChange}
+                        placeholder="Confirm Password"
+                        required
+                    />
+                    <span
+                        className="toggle-password"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                        {showConfirmPassword ? "🙈" : "👁️"}
+                    </span>
+                </div>
+    
+                {loading && <LoadingIndicator />}
+                <button className="form-button" type="submit">
+                    Register
+                </button>
+            </form>
         </>
-    );
+        );
 }
 
 export default Register;
+
